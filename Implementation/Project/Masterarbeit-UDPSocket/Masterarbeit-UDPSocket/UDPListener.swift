@@ -13,7 +13,7 @@ import Combine
 class UDPListener: ObservableObject {
     let availableEndpoints: Endpoint = .ping
     var listener: NWListener?
-    var connection: NWConnection?
+    @Published var connection: NWConnection?
     var queue = DispatchQueue.global(qos: .userInitiated)
     /// New data will be place in this variable to be received by observers
     @Published private(set) public var messageReceived: Data?
@@ -21,15 +21,19 @@ class UDPListener: ObservableObject {
     @Published private(set) public var isReady: Bool = false
     /// Default value `true`, this will become false if the UDPListener ceases listening for any reason
     @Published public var listening: Bool = true
-    @Published public var port: String
-    @Published public var actualMessage: String = ""
+    @Published public var port: String = ""
+    @Published public var actualMessage: String = "nothing received yet"
+    @Published var selectedConnectPort: String = "1336"
     
     /// A convenience init using Int instead of NWEndpoint.Port
-    convenience init(on port: Int) {
-        self.init(on: NWEndpoint.Port(integerLiteral: NWEndpoint.Port.IntegerLiteralType(port)))
-    }
+//    convenience init(on port: Int) {
+//        self.init(on: NWEndpoint.Port(integerLiteral: NWEndpoint.Port.IntegerLiteralType(port)))
+//    }
     /// Use this init or the one that takes an Int to start the listener
-    init(on port: NWEndpoint.Port) {
+    init() {
+        
+    }///
+    func setupSocket(on port: NWEndpoint.Port) {
         self.port = port.debugDescription
         let params = NWParameters.udp
         params.allowFastOpen = true
@@ -55,6 +59,9 @@ class UDPListener: ObservableObject {
         self.listener?.start(queue: self.queue)
     }
     
+    func setupSocket(port: Int) {
+       setupSocket(on: NWEndpoint.Port(integerLiteral: NWEndpoint.Port.IntegerLiteralType(port)))
+    }
     func createConnection(connection: NWConnection) {
         self.connection = connection
         self.connection?.stateUpdateHandler = { (newState) in
@@ -128,21 +135,64 @@ class UDPListener: ObservableObject {
         }
     }
     
-    func send(endpoint: Endpoint) {
-        let connection = NWConnection(host: "127.0.0.1", port: NWEndpoint.Port("1337") ?? NWEndpoint.Port.any, using: .udp)
-        print("connection: \(connection.endpoint.debugDescription)")
-        
-        connection.send(content: endpoint.commands.data(using: .utf8), completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
-            if (NWError == nil) {
-                print("Data was sent to UDP destination ")
-                
-            } else {
-                print("ERROR! Error when data (Type: Data) sending. NWError: \n \(NWError!)")
-            }
-        })))
-    }
     func cancel() {
         self.listening = false
         self.connection?.cancel()
     }
+    
+    func customSend(_ payload: Data) {
+            connection!.send(content: payload, completion: .contentProcessed({ sendError in
+                if let error = sendError {
+                    NSLog("Unable to process and send the data: \(error)")
+                } else {
+                    NSLog("Data has been sent")
+                    self.connection!.receiveMessage { (data, context, isComplete, error) in
+                        guard let myData = data else { return }
+                        NSLog("Received message: " + String(decoding: myData, as: UTF8.self))
+                        self.actualMessage = String(decoding: myData, as: UTF8.self)
+                    }
+                }
+            }))
+        }
+        
+        func customConnect() {
+            connection = NWConnection(host: "127.0.0.1", port: NWEndpoint.Port(selectedConnectPort)!, using: .udp)
+            
+            connection!.stateUpdateHandler = { (newState) in
+                switch (newState) {
+                case .preparing:
+                    NSLog("Entered state: preparing")
+                case .ready:
+                    NSLog("Entered state: ready")
+                case .setup:
+                    NSLog("Entered state: setup")
+                case .cancelled:
+                    NSLog("Entered state: cancelled")
+                case .waiting:
+                    NSLog("Entered state: waiting")
+                case .failed:
+                    NSLog("Entered state: failed")
+                default:
+                    NSLog("Entered an unknown state")
+                }
+            }
+            
+            connection!.viabilityUpdateHandler = { (isViable) in
+                if (isViable) {
+                    NSLog("Connection is viable")
+                } else {
+                    NSLog("Connection is not viable")
+                }
+            }
+            
+            connection!.betterPathUpdateHandler = { (betterPathAvailable) in
+                if (betterPathAvailable) {
+                    NSLog("A better path is availble")
+                } else {
+                    NSLog("No better path is available")
+                }
+            }
+            
+            connection!.start(queue: .global())
+        }
 }

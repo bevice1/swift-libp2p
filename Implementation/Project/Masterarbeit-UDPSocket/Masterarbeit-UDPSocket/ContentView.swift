@@ -8,7 +8,7 @@
 import SwiftUI
 //TODO: jetztt muss eine udp nachricht geschickt werden
 struct ContentView: View {
-    @State var server: UDPListener?
+    @ObservedObject var server: UDPListener = UDPListener()
     @State var selectedPort: String = "1337"
     @State var selectedRequest: Endpoint = .ping
     var body: some View {
@@ -26,10 +26,11 @@ struct ContentView: View {
                         .keyboardType(.numberPad)
                         .frame(width: 50)
                     Button("start") {
-                        server = UDPListener(on: Int(selectedPort) ?? 1337)
+//                        server = UDPListener(on: Int(selectedPort) ?? 1337)
+                        server.setupSocket(port: Int(selectedPort) ?? 1337)
                     }
                 }
-                Text("Server is listening on port: \(server?.port ?? "NaN")")
+                Text("Server is listening on port: \(server.port ?? "NaN")")
                 }
                 HStack {
                     Picker("Available Endpoints", selection: $selectedRequest) {
@@ -37,13 +38,20 @@ struct ContentView: View {
                             Text($0.rawValue)
                         }
                     }
+                    TextField("Port", text: $server.selectedConnectPort)
+                        .keyboardType(.numberPad)
+                        .frame(width: 50)
+                    Button("connect") {
+                        server.customConnect()
+                    }
                     Button("send") {
-                        server?.send(endpoint: selectedRequest)
+                        server.customSend(selectedRequest.commands.data(using: .utf8)!)
                     }
                 }
             }
             
-            Text(server?.actualMessage ?? "no message")
+            Text(server.actualMessage)
+            Text("connection: \(server.connection?.endpoint.debugDescription ?? "no connection")")
         }
         .padding()
     }
