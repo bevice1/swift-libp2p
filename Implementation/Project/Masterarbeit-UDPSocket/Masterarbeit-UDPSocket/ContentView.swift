@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
+import BackgroundTasks
 //TODO: jetztt muss eine udp nachricht geschickt werden
 struct ContentView: View {
-    @ObservedObject var server: UDPListener = UDPListener()
-    @State var selectedPort: String = "1337"
-    @State var selectedRequest: Endpoint = .ping
+    @ObservedObject var vm = ViewModel()
+    
     var body: some View {
         VStack {
             
@@ -22,36 +22,37 @@ struct ContentView: View {
                     
                 HStack {
                     Text("Select a port to listen to: ")
-                    TextField("Port", text: $selectedPort)
+                    TextField("Port", text: $vm.selectedPort)
                         .keyboardType(.numberPad)
                         .frame(width: 50)
                     Button("start") {
-//                        server = UDPListener(on: Int(selectedPort) ?? 1337)
-                        server.setupSocket(port: Int(selectedPort) ?? 1337)
+                        vm.setupSocket()
                     }
                 }
-                Text("Server is listening on port: \(server.port ?? "NaN")")
+                    Text("Server is listening").foregroundColor(vm.listening ? Color.green : Color.red)
                 }
                 HStack {
-                    Picker("Available Endpoints", selection: $selectedRequest) {
+                    Picker("Available Endpoints", selection: $vm.selectedRequest) {
                         ForEach(Endpoint.allCases, id: \.self) {
                             Text($0.rawValue)
                         }
                     }
-                    TextField("Port", text: $server.selectedConnectPort)
+                    TextField("Port", text: $vm.selectedConnectPort)
                         .keyboardType(.numberPad)
                         .frame(width: 50)
                     Button("connect") {
-                        server.customConnect()
+                        vm.startConnection()
                     }
                     Button("send") {
-                        server.customSend(selectedRequest.commands.data(using: .utf8)!)
+                        vm.send()
                     }
                 }
             }
             
-            Text(server.actualMessage)
-            Text("connection: \(server.connection?.endpoint.debugDescription ?? "no connection")")
+            Section("Message") {
+                
+                Text(vm.actualMessage)
+            }
         }
         .padding()
     }

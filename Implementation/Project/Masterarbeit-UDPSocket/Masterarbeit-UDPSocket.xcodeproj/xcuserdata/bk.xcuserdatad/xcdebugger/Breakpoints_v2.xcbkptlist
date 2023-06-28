@@ -236,8 +236,8 @@
             filePath = "Masterarbeit-UDPSocket/UDPListener.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
             landmarkName = "receive()"
             landmarkType = "7">
          </BreakpointContent>
@@ -252,8 +252,8 @@
             filePath = "Masterarbeit-UDPSocket/UDPListener.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "receive()"
             landmarkType = "7">
          </BreakpointContent>
@@ -268,8 +268,8 @@
             filePath = "Masterarbeit-UDPSocket/UDPListener.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "receive()"
             landmarkType = "7">
          </BreakpointContent>
@@ -284,9 +284,89 @@
             filePath = "Masterarbeit-UDPSocket/UDPListener.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "receive()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B8F7AC32-CA2B-4D69-8AE7-67708D0A80EE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Masterarbeit-UDPSocket/UDPListener.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "setupSocket(on:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B8F7AC32-CA2B-4D69-8AE7-67708D0A80EE - 8c295949aa359f67"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Network.NWConnection) -&gt; () in Masterarbeit_UDPSocket.UDPListener.setupSocket(on: Network.NWEndpoint.Port) -&gt; Swift.Bool"
+                  moduleName = "Masterarbeit-UDPSocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bk/Library/CloudStorage/OneDrive-FHOOe/Master/Masterarbeit/p11/Implementation/Project/Masterarbeit-UDPSocket/Masterarbeit-UDPSocket/UDPListener.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "240">
+               </Location>
+               <Location
+                  uuid = "B8F7AC32-CA2B-4D69-8AE7-67708D0A80EE - 8c295949aa359f67"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Network.NWConnection) -&gt; () in Masterarbeit_UDPSocket.UDPListener.setupSocket(on: Network.NWEndpoint.Port) -&gt; Swift.Bool"
+                  moduleName = "Masterarbeit-UDPSocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bk/Library/CloudStorage/OneDrive-FHOOe/Master/Masterarbeit/p11/Implementation/Project/Masterarbeit-UDPSocket/Masterarbeit-UDPSocket/UDPListener.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "228">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3A6598DD-7DE8-4E46-9595-CB6F29415E84"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Masterarbeit-UDPSocket/UDPListener.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "setupSocket(on:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4F23C33D-2AE3-4867-B58C-B5C25B66DDEE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Masterarbeit-UDPSocket/UDPListener.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "registerReceiver(didReceive:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

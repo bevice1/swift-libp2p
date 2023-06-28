@@ -14,8 +14,10 @@
 		4040F5732A150C1100408923 /* BlueSocketTestCommonLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 4040F5722A150C1100408923 /* BlueSocketTestCommonLibrary */; };
 		4040F5752A150C1100408923 /* Socket in Frameworks */ = {isa = PBXBuildFile; productRef = 4040F5742A150C1100408923 /* Socket */; };
 		4040F5782A150CE100408923 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 4040F5772A150CE100408923 /* ArgumentParser */; };
+		40751BB52A4C1AD400E41D9B /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40751BB42A4C1AD400E41D9B /* ViewModel.swift */; };
 		409BF2912A1BB26A009B94B6 /* UDPListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409BF2902A1BB26A009B94B6 /* UDPListener.swift */; };
 		40AC2E112A3F37E500C3E2AC /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40AC2E102A3F37E500C3E2AC /* Endpoint.swift */; };
+		40F25F702A485388005BDD0E /* BackgroundOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F25F6F2A485388005BDD0E /* BackgroundOperation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,8 +26,11 @@
 		4040F5622A15073C00408923 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4040F5642A15073D00408923 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4040F5672A15073D00408923 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		40751BB42A4C1AD400E41D9B /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		409BF2902A1BB26A009B94B6 /* UDPListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UDPListener.swift; sourceTree = "<group>"; };
 		40AC2E102A3F37E500C3E2AC /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		40F25F6E2A485092005BDD0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		40F25F6F2A485388005BDD0E /* BackgroundOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundOperation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,12 +66,16 @@
 		4040F55F2A15073C00408923 /* Masterarbeit-UDPSocket */ = {
 			isa = PBXGroup;
 			children = (
+				40751BB32A4C1AA000E41D9B /* Viewmodel */,
+				40751BB22A4C1A9B00E41D9B /* View */,
+				40751BB12A4C1A9300E41D9B /* Model */,
+				40F25F6E2A485092005BDD0E /* Info.plist */,
 				4040F5602A15073C00408923 /* Masterarbeit_UDPSocketApp.swift */,
 				4040F5622A15073C00408923 /* ContentView.swift */,
 				4040F5642A15073D00408923 /* Assets.xcassets */,
 				4040F5662A15073D00408923 /* Preview Content */,
 				409BF2902A1BB26A009B94B6 /* UDPListener.swift */,
-				40AC2E102A3F37E500C3E2AC /* Endpoint.swift */,
+				40F25F6F2A485388005BDD0E /* BackgroundOperation.swift */,
 			);
 			path = "Masterarbeit-UDPSocket";
 			sourceTree = "<group>";
@@ -77,6 +86,29 @@
 				4040F5672A15073D00408923 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		40751BB12A4C1A9300E41D9B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				40AC2E102A3F37E500C3E2AC /* Endpoint.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		40751BB22A4C1A9B00E41D9B /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		40751BB32A4C1AA000E41D9B /* Viewmodel */ = {
+			isa = PBXGroup;
+			children = (
+				40751BB42A4C1AD400E41D9B /* ViewModel.swift */,
+			);
+			path = Viewmodel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,8 +191,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4040F5632A15073C00408923 /* ContentView.swift in Sources */,
+				40F25F702A485388005BDD0E /* BackgroundOperation.swift in Sources */,
 				4040F5612A15073C00408923 /* Masterarbeit_UDPSocketApp.swift in Sources */,
 				40AC2E112A3F37E500C3E2AC /* Endpoint.swift in Sources */,
+				40751BB52A4C1AD400E41D9B /* ViewModel.swift in Sources */,
 				409BF2912A1BB26A009B94B6 /* UDPListener.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,6 +327,7 @@
 				DEVELOPMENT_TEAM = 6QXRWZ6L82;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Masterarbeit-UDPSocket/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -322,6 +357,7 @@
 				DEVELOPMENT_TEAM = 6QXRWZ6L82;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Masterarbeit-UDPSocket/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

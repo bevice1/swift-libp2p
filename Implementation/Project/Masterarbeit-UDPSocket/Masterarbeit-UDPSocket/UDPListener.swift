@@ -21,23 +21,23 @@ class UDPListener: ObservableObject {
     @Published private(set) public var isReady: Bool = false
     /// Default value `true`, this will become false if the UDPListener ceases listening for any reason
     @Published public var listening: Bool = true
-    @Published public var port: String = ""
     @Published public var actualMessage: String = "nothing received yet"
-    @Published var selectedConnectPort: String = "1336"
+    var didReceive: ((String) -> Void)?
+
     
-    /// A convenience init using Int instead of NWEndpoint.Port
-//    convenience init(on port: Int) {
-//        self.init(on: NWEndpoint.Port(integerLiteral: NWEndpoint.Port.IntegerLiteralType(port)))
-//    }
-    /// Use this init or the one that takes an Int to start the listener
-    init() {
-        
-    }///
-    func setupSocket(on port: NWEndpoint.Port) {
-        self.port = port.debugDescription
+    func registerReceiver(didReceive: @escaping (String) -> Void) {
+        self.didReceive = didReceive
+    }
+
+
+    func setupSocket(on port: NWEndpoint.Port) -> Bool {
         let params = NWParameters.udp
         params.allowFastOpen = true
-        self.listener = try? NWListener(using: params, on: port)
+        do {
+            self.listener = try NWListener(using: params, on: port)
+        } catch {
+            return false
+        }
         self.listener?.stateUpdateHandler = { update in
             switch update {
             case .ready:
@@ -54,15 +54,18 @@ class UDPListener: ObservableObject {
         }
         self.listener?.newConnectionHandler = { connection in
             print("Listener receiving new message")
-            self.createConnection(connection: connection)
+            self.acceptConnection(connection: connection)
         }
         self.listener?.start(queue: self.queue)
+        return true
     }
     
-    func setupSocket(port: Int) {
-       setupSocket(on: NWEndpoint.Port(integerLiteral: NWEndpoint.Port.IntegerLiteralType(port)))
+    func setupSocket(port: Int) -> Bool {
+       return setupSocket(on: NWEndpoint.Port(integerLiteral: NWEndpoint.Port.IntegerLiteralType(port)))
     }
-    func createConnection(connection: NWConnection) {
+    
+    
+    func acceptConnection(connection: NWConnection) {
         self.connection = connection
         self.connection?.stateUpdateHandler = { (newState) in
             switch (newState) {
@@ -81,7 +84,7 @@ class UDPListener: ObservableObject {
         }
         self.connection?.start(queue: .global())
     }
-    
+
     func receive() {
         self.connection?.receiveMessage { data, context, isComplete, error in
             if let unwrappedError = error {
@@ -101,7 +104,7 @@ class UDPListener: ObservableObject {
                 return
             }
             
-            guard let elem = Endpoint.initCase(string: String(stringArray.first ?? "")) else {
+            guard Endpoint.initCase(string: String(stringArray.first ?? "")) != nil else {
                 print("405 method not found")
                 return
             }
@@ -109,6 +112,10 @@ class UDPListener: ObservableObject {
             print("stringArray" + stringArray.description)
             print("Data: " + stringData)
             self.actualMessage = stringData
+            guard let didReceive = self.didReceive else {
+             return
+            }
+            didReceive(self.actualMessage)
             
             switch stringArray.first ?? "" {
             case "ping": print("ping chi ling")
@@ -155,9 +162,8 @@ class UDPListener: ObservableObject {
             }))
         }
         
-        func customConnect() {
-            connection = NWConnection(host: "127.0.0.1", port: NWEndpoint.Port(selectedConnectPort)!, using: .udp)
-            
+    func createConnection(host: String, port: String) {
+        connection = NWConnection(host: NWEndpoint.Host(host), port: NWEndpoint.Port(port)!, using: .udp)
             connection!.stateUpdateHandler = { (newState) in
                 switch (newState) {
                 case .preparing:
