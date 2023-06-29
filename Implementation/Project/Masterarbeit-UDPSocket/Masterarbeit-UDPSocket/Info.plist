@@ -4,10 +4,11 @@
 <dict>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
-		<string>kaiser.b.private.Masterarbeit-UDPSocket.udpSocketRefresh</string>
+		<string>kaiser.b.private.udpSocketRefresh</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>processing</string>
 	</array>
 </dict>

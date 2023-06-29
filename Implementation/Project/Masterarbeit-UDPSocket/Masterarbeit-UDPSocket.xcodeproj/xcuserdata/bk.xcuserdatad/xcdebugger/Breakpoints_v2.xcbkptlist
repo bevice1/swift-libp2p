@@ -166,7 +166,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "8AB1FC70-D4A4-446F-BB2C-47FBEA26A6F3"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Masterarbeit-UDPSocket/Server.swift"
@@ -214,7 +214,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9FE0B0F5-7957-45C0-9254-D98EBB42ED22"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Masterarbeit-UDPSocket/Server.swift"
@@ -368,6 +368,244 @@
             endingLineNumber = "29"
             landmarkName = "registerReceiver(didReceive:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D12A883B-155E-4BCA-85A0-ED2C47B77251"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Masterarbeit-UDPSocket/Viewmodel/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "init()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D12A883B-155E-4BCA-85A0-ED2C47B77251 - 9959bc7a30b08920"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Masterarbeit_UDPSocket.ViewModel.setupSocket() -&gt; ()"
+                  moduleName = "Masterarbeit-UDPSocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bk/Library/CloudStorage/OneDrive-FHOOe/Master/Masterarbeit/p11/Implementation/Project/Masterarbeit-UDPSocket/Masterarbeit-UDPSocket/Viewmodel/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "32">
+               </Location>
+               <Location
+                  uuid = "D12A883B-155E-4BCA-85A0-ED2C47B77251 - 2aeb05132fbfae5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.BGTask) -&gt; () in Masterarbeit_UDPSocket.ViewModel.init() -&gt; Masterarbeit_UDPSocket.ViewModel"
+                  moduleName = "Masterarbeit-UDPSocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bk/Library/CloudStorage/OneDrive-FHOOe/Master/Masterarbeit/p11/Implementation/Project/Masterarbeit-UDPSocket/Masterarbeit-UDPSocket/Viewmodel/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40"
+                  offsetFromSymbolStart = "68">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "639BC8C6-1D51-4757-9E2B-F17107360A55"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Masterarbeit-UDPSocket/Viewmodel/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "init()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "639BC8C6-1D51-4757-9E2B-F17107360A55 - 679a6f9ab868d586"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Masterarbeit_UDPSocket.ViewModel.init() -&gt; Masterarbeit_UDPSocket.ViewModel"
+                  moduleName = "Masterarbeit-UDPSocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bk/Library/CloudStorage/OneDrive-FHOOe/Master/Masterarbeit/p11/Implementation/Project/Masterarbeit-UDPSocket/Masterarbeit-UDPSocket/Viewmodel/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "736">
+               </Location>
+               <Location
+                  uuid = "639BC8C6-1D51-4757-9E2B-F17107360A55 - 2aeb05132fbf434"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__C.BGTask) -&gt; () in Masterarbeit_UDPSocket.ViewModel.init() -&gt; Masterarbeit_UDPSocket.ViewModel"
+                  moduleName = "Masterarbeit-UDPSocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bk/Library/CloudStorage/OneDrive-FHOOe/Master/Masterarbeit/p11/Implementation/Project/Masterarbeit-UDPSocket/Masterarbeit-UDPSocket/Viewmodel/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  uuid = "639BC8C6-1D51-4757-9E2B-F17107360A55 - 679a6f9ab868d586"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Masterarbeit_UDPSocket.ViewModel.init() -&gt; Masterarbeit_UDPSocket.ViewModel"
+                  moduleName = "Masterarbeit-UDPSocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bk/Library/CloudStorage/OneDrive-FHOOe/Master/Masterarbeit/p11/Implementation/Project/Masterarbeit-UDPSocket/Masterarbeit-UDPSocket/Viewmodel/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "836">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "806AD79B-323D-4B1D-A6BE-B0F432E4C29F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Masterarbeit-UDPSocket/Viewmodel/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "handleRefreshTask(task:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "806AD79B-323D-4B1D-A6BE-B0F432E4C29F - ddc4c263ecfc9243"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Masterarbeit_UDPSocket.ViewModel.handleRefreshTask(task: __C.BGAppRefreshTask) -&gt; ()"
+                  moduleName = "Masterarbeit-UDPSocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bk/Library/CloudStorage/OneDrive-FHOOe/Master/Masterarbeit/p11/Implementation/Project/Masterarbeit-UDPSocket/Masterarbeit-UDPSocket/Viewmodel/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "67"
+                  endingLineNumber = "67"
+                  offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "806AD79B-323D-4B1D-A6BE-B0F432E4C29F - ddc4c263ecfc95ac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Masterarbeit_UDPSocket.ViewModel.handleRefreshTask(task: __C.BGAppRefreshTask) -&gt; ()"
+                  moduleName = "Masterarbeit-UDPSocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bk/Library/CloudStorage/OneDrive-FHOOe/Master/Masterarbeit/p11/Implementation/Project/Masterarbeit-UDPSocket/Masterarbeit-UDPSocket/Viewmodel/ViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "66"
+                  endingLineNumber = "66"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9805CA46-E59C-4BF8-B9D1-F453080D19E5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Masterarbeit-UDPSocket/Viewmodel/ViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "selectedPort"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BEFD91F9-F703-4DB5-B5C5-21E59DC180DD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Masterarbeit-UDPSocket/UDPListener.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "receive()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BEFD91F9-F703-4DB5-B5C5-21E59DC180DD - 8e774b011932a66d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;Network.NWConnection.ContentContext&gt;, Swift.Bool, Swift.Optional&lt;Network.NWError&gt;) -&gt; () in Masterarbeit_UDPSocket.UDPListener.receive() -&gt; ()"
+                  moduleName = "Masterarbeit-UDPSocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bk/Library/CloudStorage/OneDrive-FHOOe/Master/Masterarbeit/p11/Implementation/Project/Masterarbeit-UDPSocket/Masterarbeit-UDPSocket/UDPListener.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "121"
+                  endingLineNumber = "121"
+                  offsetFromSymbolStart = "3224">
+               </Location>
+               <Location
+                  uuid = "BEFD91F9-F703-4DB5-B5C5-21E59DC180DD - 8e774b011932a66d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;Network.NWConnection.ContentContext&gt;, Swift.Bool, Swift.Optional&lt;Network.NWError&gt;) -&gt; () in Masterarbeit_UDPSocket.UDPListener.receive() -&gt; ()"
+                  moduleName = "Masterarbeit-UDPSocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bk/Library/CloudStorage/OneDrive-FHOOe/Master/Masterarbeit/p11/Implementation/Project/Masterarbeit-UDPSocket/Masterarbeit-UDPSocket/UDPListener.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "121"
+                  endingLineNumber = "121"
+                  offsetFromSymbolStart = "3284">
+               </Location>
+               <Location
+                  uuid = "BEFD91F9-F703-4DB5-B5C5-21E59DC180DD - 8e774b011932a66d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;Network.NWConnection.ContentContext&gt;, Swift.Bool, Swift.Optional&lt;Network.NWError&gt;) -&gt; () in Masterarbeit_UDPSocket.UDPListener.receive() -&gt; ()"
+                  moduleName = "Masterarbeit-UDPSocket"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bk/Library/CloudStorage/OneDrive-FHOOe/Master/Masterarbeit/p11/Implementation/Project/Masterarbeit-UDPSocket/Masterarbeit-UDPSocket/UDPListener.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "121"
+                  endingLineNumber = "121"
+                  offsetFromSymbolStart = "3268">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -9,6 +9,7 @@ import Foundation
 
 class RefreshAppContentsOperation: Operation {
     override func main() {
+        print("refreshing")
         if isCancelled {
             return
         }
@@ -23,7 +24,7 @@ class RefreshAppContentsOperation: Operation {
     
     
     func startUDPSocket() {
-        
+       print("task started, udp socket")
     }
     
     func stopUDPSocket() {

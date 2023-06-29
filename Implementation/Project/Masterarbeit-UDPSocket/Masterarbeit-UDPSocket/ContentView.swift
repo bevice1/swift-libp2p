@@ -7,13 +7,12 @@
 
 import SwiftUI
 import BackgroundTasks
-//TODO: jetztt muss eine udp nachricht geschickt werden
 struct ContentView: View {
     @ObservedObject var vm = ViewModel()
-    
+    @Environment(\.scenePhase) var scenePhase
+
     var body: some View {
         VStack {
-            
             Text("UDP Endpoint tests")
                 .bold()
                 .font(.title)
@@ -28,24 +27,24 @@ struct ContentView: View {
                     Button("start") {
                         vm.setupSocket()
                     }
+                    .disabled(!vm.canStart)
                 }
-                    Text("Server is listening").foregroundColor(vm.listening ? Color.green : Color.red)
+                    Text(vm.connectionString).foregroundColor(vm.listening ? Color.green : Color.red)
                 }
                 HStack {
+     
+                    TextField("Port", text: $vm.selectedConnectPort)
+                        .keyboardType(.numberPad)
+                        .frame(width: 50)
                     Picker("Available Endpoints", selection: $vm.selectedRequest) {
                         ForEach(Endpoint.allCases, id: \.self) {
                             Text($0.rawValue)
                         }
                     }
-                    TextField("Port", text: $vm.selectedConnectPort)
-                        .keyboardType(.numberPad)
-                        .frame(width: 50)
-                    Button("connect") {
-                        vm.startConnection()
+                    Button("connect & send") {
+                        vm.startConnectionAndSend()
                     }
-                    Button("send") {
-                        vm.send()
-                    }
+                    .disabled(!vm.canConnect)
                 }
             }
             
@@ -55,6 +54,11 @@ struct ContentView: View {
             }
         }
         .padding()
+        .onChange(of: scenePhase) { newValue in
+            if newValue == .background {
+                vm.scheduleAppRefresh()
+            }
+        }
     }
 }
 

@@ -119,6 +119,7 @@ class UDPListener: ObservableObject {
             
             switch stringArray.first ?? "" {
             case "ping": print("ping chi ling")
+                self.customSend("node \(self.listener?.port?.debugDescription ?? "") alive".data(using: .utf8)!)
             case "store": print("storr storr")
             case "find_node":
                 if stringArray.count < 2 {
@@ -157,6 +158,10 @@ class UDPListener: ObservableObject {
                         guard let myData = data else { return }
                         NSLog("Received message: " + String(decoding: myData, as: UTF8.self))
                         self.actualMessage = String(decoding: myData, as: UTF8.self)
+                        guard let didReceive = self.didReceive else {
+                         return
+                        }
+                        didReceive(String(decoding: myData, as: UTF8.self))
                     }
                 }
             }))
