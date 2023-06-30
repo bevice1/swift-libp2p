@@ -24,16 +24,20 @@ enum Endpoint: String, CustomStringConvertible, CaseIterable {
     
     var commands: String {
         switch self {
-        case .find_node: return "/find_node"
-        case .find_value: return "/find_value"
-        case .ping: return "/ping"
-        case .store: return "/store"
+        case .find_node: return "node not found"
+        case .find_value: return "value not found"
+        case .ping: return "node pinged"
+        case .store: return "entry stored"
         }
     }
+    
+    
+    
+    
         static func initCase(string: String) -> Endpoint? {
             switch string {
             case "find_node":  return .find_node
-            case "ping": return .find_node
+            case "ping": return .ping
             case "find_value": return .find_value
             case "store": return .store
             default: return nil

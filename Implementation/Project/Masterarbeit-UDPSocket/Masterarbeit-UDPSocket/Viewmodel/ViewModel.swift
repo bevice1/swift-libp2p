@@ -41,7 +41,6 @@ class ViewModel: ObservableObject {
             self.handleRefreshTask(task: task as! BGAppRefreshTask)
         }
         udpListener.registerReceiver(didReceive: { elem in
-            print("elem:::::::\(elem)")
             self.actualMessage = elem
         }) 
     }
@@ -52,7 +51,7 @@ class ViewModel: ObservableObject {
     
     func startConnectionAndSend() {
         udpListener.createConnection(host: host, port: selectedConnectPort)
-        udpListener.customSend(selectedRequest.commands.data(using: .utf8)!)
+        udpListener.customSend(selectedRequest.description.data(using: .utf8)!)
     }
     
     

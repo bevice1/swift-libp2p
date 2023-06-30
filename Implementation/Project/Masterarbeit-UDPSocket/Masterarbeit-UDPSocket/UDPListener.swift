@@ -117,26 +117,32 @@ class UDPListener: ObservableObject {
             }
             didReceive(self.actualMessage)
             
-            switch stringArray.first ?? "" {
-            case "ping": print("ping chi ling")
-                self.customSend("node \(self.listener?.port?.debugDescription ?? "") alive".data(using: .utf8)!)
-            case "store": print("storr storr")
-            case "find_node":
-                if stringArray.count < 2 {
-                    print("418 i am a teapot")
-                    return
-                }
-                print("found node: " + stringArray[1])
-            case "find_value" :
-                if stringArray.count < 2 {
-                    print("418 i am a teapot")
-                    return
-                }
-                print("found value: " + stringArray[1])
-            default:
-                print("ERROR")
-                
+            let endpoint = Endpoint.initCase(string: String(stringArray.first ?? ""))
+            guard let endpoint = endpoint else {
+                return
             }
+            self.customSend(endpoint.commands.data(using: .utf8)!)
+//            switch stringArray.first ?? "" {
+//            case "ping": print("ping chi ling")
+//                self.customSend("node \(self.listener?.port?.debugDescription ?? "") alive".data(using: .utf8)!)
+//            case "store": print("storr storr")
+//            case "find_node":
+//                if stringArray.count < 2 {
+//                    print("418 i am a teapot")
+//                    return
+//                }
+//                print("found node: " + stringArray[1])
+//            case "find_value" :
+//                if stringArray.count < 2 {
+//                    print("418 i am a teapot")
+//                    return
+//                }
+//                print("found value: " + stringArray[1])
+//            default:
+//                print("ERROR")
+//
+//            }
+            
             if self.listening {
                 self.receive()
             }
@@ -161,7 +167,7 @@ class UDPListener: ObservableObject {
                         guard let didReceive = self.didReceive else {
                          return
                         }
-                        didReceive(String(decoding: myData, as: UTF8.self))
+                        didReceive("Response:" + String(decoding: myData, as: UTF8.self))
                     }
                 }
             }))
