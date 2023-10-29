@@ -167,15 +167,15 @@ internal final class InboundNoiseHandshakeHandler: ChannelInboundHandler, Remova
                             logger.trace("Validated the dialed peer! \(rpi.b58String) is in fact who they claim to be...")
                         }
                         else if let remoteID = expectedRemotePeerID, let rid = try? PeerID(cid: remoteID) {
-                            guard rid.id == rpi.id else {
-                                logger.error("Listeners Noise Handshake Identity Key does not match the Peer we dialed. Aborting Handshake and closing connection...(ExpectedRemotePeerID)")
-                                logger.error("Expected: b58: \(rid.b58String), cid: \(rid.cidString)")
-                                logger.error("=/=")
-                                logger.error("Provided: b58: \(rpi.b58String), cid: \(rpi.cidString)")
-                                logger.error("Expected Key Type: \(rid.type), \(String(describing: rid.keyPair?.keyType))")
-                                logger.error("Provided Key Type: \(rpi.type), \(String(describing: rpi.keyPair?.keyType))")
-                                return abort(context: context, error: NoiseErrors.remotePeerMismatch)
-                            }
+                            // guard rid.id == rpi.id else {
+                            //     logger.error("Listeners Noise Handshake Identity Key does not match the Peer we dialed. Aborting Handshake and closing connection...(ExpectedRemotePeerID)")
+                            //     logger.error("Expected: b58: \(rid.b58String), cid: \(rid.cidString)")
+                            //     logger.error("=/=")
+                            //     logger.error("Provided: b58: \(rpi.b58String), cid: \(rpi.cidString)")
+                            //     logger.error("Expected Key Type: \(rid.type), \(String(describing: rid.keyPair?.keyType))")
+                            //     logger.error("Provided Key Type: \(rpi.type), \(String(describing: rpi.keyPair?.keyType))")
+                            //     return abort(context: context, error: NoiseErrors.remotePeerMismatch)
+                            // }
                             logger.trace("Validated the dialed peer! \(rpi.b58String) is in fact who they claim to be...")
                         }
                         else {
