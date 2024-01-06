@@ -1,0 +1,3 @@
+[submodule "Implementation/Project/swift-libp2p"]
+	path = Implementation/Project/swift-libp2p
+	url = git@github.com:bevice1/swift-libp2p.git
