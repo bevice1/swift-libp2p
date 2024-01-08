@@ -75,4 +75,12 @@ func routes(_ app: Application) throws {
             }
         }
     }
+    
+    app.group("libp2p") { libp2p in
+        libp2p.group("autonat") { autonat in
+            autonat.on("1.0.0") { req -> Response<ByteBuffer> in
+                    return handleAutonatRequest(req)
+            }
+        }
+    }
 }

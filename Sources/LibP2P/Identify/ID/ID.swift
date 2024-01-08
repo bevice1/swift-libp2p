@@ -41,6 +41,7 @@ public final class Identify: IdentityManager, CustomStringConvertible {
         static let DELTA = "/p2p/id/delta/1.0.0"
         static let PUSH = "/ipfs/id/push/1.0.0"
         static let ID = "/ipfs/id/1.0.0"
+        static let AUTONAT = "/libp2p/autonat/v1.0.0"
     }
 
     public var description: String {
