@@ -23,7 +23,8 @@ public protocol IdentityManager {
     func register()
     func ping(peer:PeerID) -> EventLoopFuture<TimeAmount>
     func ping(addr:Multiaddr) -> EventLoopFuture<TimeAmount>
-    func sendAutoNat(peer:PeerID)
+    // func sendAutoNat(peer:PeerID)
+    func sendAutoNat(peer:PeerID) -> EventLoopFuture<TimeAmount>
     //func constructIdentifyMessage(req:Request) throws -> [UInt8]
     
 }
