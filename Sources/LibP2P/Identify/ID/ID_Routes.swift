@@ -20,6 +20,7 @@ func routes(_ app: Application) throws {
     // ipfs/...
     app.group("ipfs") { ipfs in
         
+        
         // Route group: ipfs/id/...
         // Handlers: .varIntLengthPrefix is applied to all routes within `id`
         ipfs.group("id", handlers: [.varIntLengthPrefixed]) { id in
@@ -47,8 +48,15 @@ func routes(_ app: Application) throws {
                     return handlePushRequest(req)
                 }
             }
+            
+         
         }
-        
+        ipfs.group("autonat") { msg in
+            print("autonat msg received")
+            msg.on("1.0.0"){ req -> Response<ByteBuffer> in
+                                    return handleAutonatRequest(req)
+                            }
+        }
         // Route Group: /ipfs/ping/...
         ipfs.group("ping") { ping in
             
@@ -76,11 +84,11 @@ func routes(_ app: Application) throws {
         }
     }
     
-    app.group("libp2p") { libp2p in
-        libp2p.group("autonat") { autonat in
-            autonat.on("1.0.0") { req -> Response<ByteBuffer> in
-                    return handleAutonatRequest(req)
-            }
-        }
-    }
+//    app.group("libp2p") { libp2p in
+//        libp2p.group("autonat") { autonat in
+//            autonat.on("1.0.0") { req -> Response<ByteBuffer> in
+//                    return handleAutonatRequest(req)
+//            }
+//        }
+//    }
 }

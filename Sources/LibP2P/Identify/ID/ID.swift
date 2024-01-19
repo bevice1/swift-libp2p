@@ -41,7 +41,8 @@ public final class Identify: IdentityManager, CustomStringConvertible {
         static let DELTA = "/p2p/id/delta/1.0.0"
         static let PUSH = "/ipfs/id/push/1.0.0"
         static let ID = "/ipfs/id/1.0.0"
-        static let AUTONAT = "/libp2p/autonat/v1.0.0"
+        static let AUTONAT = "/ipfs/autonat/1.0.0"
+//        static let AUTONAT = "/libp2p/autonat/v1.0.0"
     }
 
     public var description: String {
@@ -78,6 +79,19 @@ public final class Identify: IdentityManager, CustomStringConvertible {
         return self.application!.eventLoopGroup.next().flatSubmit { //} .flatScheduleTask(deadline: .now() + .seconds(3)) {
             self.application!.logger.trace("Identify::Attempting to ping \(peer)")
             return self.initiateOutboundPingTo(peer: peer)
+        }
+    }
+    
+//    public func sendAutoNat(peer: PeerID) {
+    public func sendAutoNat(peer: PeerID) -> EventLoopFuture<TimeAmount> {
+        print("----------Autonat first-------")
+        return self.application!.eventLoopGroup.next().flatSubmit { //} .flatScheduleTask(deadline: .now() + .seconds(3)) {
+            self.application!.logger.trace("Identify::Attempting to send Autonat to \(peer)")
+            print("--------Autonat after eventloop creation ---------")
+            let promise = self.application!.eventLoopGroup.next().makePromise(of: TimeAmount.self)
+            try! self.application!.newStream(to: peer, forProtocol: Identify.Multicodecs.AUTONAT)
+            print("--------Autonat after eventloop creation ---------")
+            return promise.futureResult
         }
     }
 
@@ -398,3 +412,5 @@ extension Identify {
         }
     }
 }
+
+

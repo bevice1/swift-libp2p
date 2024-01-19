@@ -93,6 +93,10 @@ internal final class Negotiator {
     
     /// This function is meant to be called repeatably with MSS traffic until a protocol is negotiated or an error occurs
     public func consumeMessage(_ bytes:Bytes) -> Response {
+//        print("message: \(bytes.asString(base: .base16))")
+        let msg = String(bytes: bytes, encoding: .utf8)
+        
+        print("message: \(msg)")
         self.logger.trace("Consuming/Decoding Message: '\(bytes.asString(base: .base16))'")
         guard self.state == .initialized || self.state == .speaksMSS else { return errorState( .negotationFailed, leftover: bytes) }
         
@@ -104,12 +108,14 @@ internal final class Negotiator {
         guard mssMessages.count > 0 else { return errorState( Errors.failedToParseMSSMessage ) }
         
         var returnMessages:[Bytes] = []
-        
+       
         switch mode {
         case .initiator:
             for message in mssMessages {
                 self.logger.trace("Initiator Handling Message: \nHex:'\(message.asString(base: .base16))' \nUTF8:'\(String(data: Data(message), encoding: .utf8) ?? "nil")'")
                 switch message {
+                
+                    
                 // When in initiator mode, we send our first protocol
                 case multistreamSelectCodecID:
                     guard case .initialized = self.state else {

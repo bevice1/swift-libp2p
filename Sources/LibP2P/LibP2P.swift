@@ -114,6 +114,8 @@ public final class Application {
         self.didShutdown = false
         
         self.logger = .init(label: "libp2p.application[\(peerID.shortDescription)]")
+        self.logger.logLevel = .trace
+        
         self.storage = .init(logger: self.logger)
         self.lifecycle = .init()
         self.isBooted = false

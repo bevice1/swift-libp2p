@@ -93,7 +93,7 @@ public class ARCConnection:AppConnection {
         self.id = id
         self.application = application
         self.logger = Logger(label: "ARCConnection[\(application.peerID.shortDescription)][\(id.uuidString.prefix(5))]") //logger
-        self.logger.logLevel = application.logger.logLevel
+        self.logger.logLevel = .trace
         self.channel = channel
         self.stateMachine = ConnectionStateMachine()
         
