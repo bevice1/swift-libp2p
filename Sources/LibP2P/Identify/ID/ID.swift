@@ -357,7 +357,7 @@ extension Identify {
         dial.peer = info
         
         do {
-            let data = try info.serializedData()
+            let data = try dial.serializedData()
             return self.application?.allocator.buffer(bytes: data.bytes)
         } catch {
             print("couldnt serialize outbound autonat")
