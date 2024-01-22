@@ -82,15 +82,11 @@ public final class Identify: IdentityManager, CustomStringConvertible {
         }
     }
     
-//    public func sendAutoNat(peer: PeerID) {
     public func sendAutoNat(peer: PeerID) -> EventLoopFuture<TimeAmount> {
-        print("----------Autonat first-------")
         return self.application!.eventLoopGroup.next().flatSubmit { //} .flatScheduleTask(deadline: .now() + .seconds(3)) {
             self.application!.logger.trace("Identify::Attempting to send Autonat to \(peer)")
-            print("--------Autonat after eventloop creation ---------")
             let promise = self.application!.eventLoopGroup.next().makePromise(of: TimeAmount.self)
             try! self.application!.newStream(to: peer, forProtocol: Identify.Multicodecs.AUTONAT)
-            print("--------Autonat after eventloop creation ---------")
             return promise.futureResult
         }
     }
@@ -353,6 +349,21 @@ extension Identify {
         return req.allocator.buffer(bytes: bytes)
     }
 
+    
+    func handleOutboundAutonatDial(addresses: PeerInfo) -> ByteBuffer? {
+        var dial = Message.Dial()
+        var info = Message.PeerInfo()
+        info.id = Data(addresses.peer.id)
+        dial.peer = info
+        
+        do {
+            let data = try info.serializedData()
+            return self.application?.allocator.buffer(bytes: data.bytes)
+        } catch {
+            print("couldnt serialize outbound autonat")
+            return nil
+        }
+    }
     func handleOutboundPingResponse(_ req: Request, pingResponse: [UInt8]) {
         self.el.execute {
             guard let pendingPing = self.pingCache.removeValue(forKey: pingResponse) else {

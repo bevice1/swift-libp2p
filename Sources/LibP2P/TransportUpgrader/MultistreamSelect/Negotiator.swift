@@ -93,10 +93,7 @@ internal final class Negotiator {
     
     /// This function is meant to be called repeatably with MSS traffic until a protocol is negotiated or an error occurs
     public func consumeMessage(_ bytes:Bytes) -> Response {
-//        print("message: \(bytes.asString(base: .base16))")
-        let msg = String(bytes: bytes, encoding: .utf8)
         
-        print("message: \(msg)")
         self.logger.trace("Consuming/Decoding Message: '\(bytes.asString(base: .base16))'")
         guard self.state == .initialized || self.state == .speaksMSS else { return errorState( .negotationFailed, leftover: bytes) }
         

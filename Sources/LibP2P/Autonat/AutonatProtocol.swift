@@ -9,7 +9,7 @@ import Foundation
 
 
 
-public final class Autonat: CustomStringConvertible{
+public final class AutonatProtocol: CustomStringConvertible{
     public var description: String
     
     init(description: String) {

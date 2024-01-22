@@ -52,9 +52,9 @@ func routes(_ app: Application) throws {
          
         }
         ipfs.group("autonat") { msg in
-            print("autonat msg received")
             msg.on("1.0.0"){ req -> Response<ByteBuffer> in
-                                    return handleAutonatRequest(req)
+                let elem = handleAutonatRequest(req)
+                                    return elem
                             }
         }
         // Route Group: /ipfs/ping/...
