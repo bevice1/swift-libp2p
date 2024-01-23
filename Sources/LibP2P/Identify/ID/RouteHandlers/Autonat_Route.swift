@@ -8,8 +8,6 @@
 import Foundation
 internal func handleAutonatRequest(_ req:Request) -> Response<ByteBuffer> {
     
-    print("=====req.payload: \(req.payload), type: \(req.payload.readableBytes)")
-    
     switch req.streamDirection {
     case .inbound:
         
@@ -20,9 +18,8 @@ internal func handleAutonatRequest(_ req:Request) -> Response<ByteBuffer> {
             guard let message = try? Message.Dial(contiguousBytes: Array<UInt8>(req.payload.readableBytesView)) else {
                 return .close
             }
-            print("message: \(message)")
+            handleDialRequest(req: req, msg: message)
             return .respondThenClose(payload)
-  
             
         default: print("default case")
             return .close
@@ -30,10 +27,6 @@ internal func handleAutonatRequest(_ req:Request) -> Response<ByteBuffer> {
         
     case .outbound:
         let dial = requestDial(req: req)
-//        guard let data = dial else {
-//            req.logger.error("Identify::Cannot create Autonat Request Data")
-//            return .close
-//        }
         return .respond(dial!)
     default:
         print("default")
@@ -54,4 +47,13 @@ func requestDial(req: Request) -> ByteBuffer? {
     } else {
        return nil
     }
+}
+
+func handleDialRequest(req: Request, msg: Message.Dial) -> ByteBuffer? {
+    guard let manager = req.application.identify as? Identify else {
+        req.logger.error("Identify::Unknown IdentityManager. Unable to contruct ping message")
+        return nil
+    }
+    
+    return manager.handleDialRequest(msg: msg)
 }
