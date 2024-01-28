@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Benedikt Kaiser on 06.01.24.
 //
@@ -15,25 +15,43 @@ internal func handleAutonatRequest(_ req:Request) -> Response<ByteBuffer> {
         case .ready:
             return .stayOpen
         case .data(let payload):
-            guard let message = try? Message.Dial(contiguousBytes: Array<UInt8>(req.payload.readableBytesView)) else {
+            if let message = try? Message.Dial(contiguousBytes: Array<UInt8>(req.payload.readableBytesView)) {
+                let request = handleDialRequest(req: req, msg: message)
+                if let request = request {
+                    return .respondThenClose(request)
+                } else {
+                    return .close
+                }
+            }
+            
+            if let message = try? Message.DialResponse(contiguousBytes: Array<UInt8>(req.payload.readableBytesView)) {
+                handleDialResponse(req: req, msg: message)
                 return .close
             }
-            handleDialRequest(req: req, msg: message)
-            return .respondThenClose(payload)
+            
+            return .close
             
         default: print("default case")
             return .close
         }
         
     case .outbound:
-        let dial = requestDial(req: req)
-        return .respond(dial!)
-    default:
-        print("default")
+        switch req.event {
+        case .ready:
+            if let message = try? Message.Dial(contiguousBytes: Array<UInt8>(req.payload.readableBytesView)) {
+                let dial = requestDial(req: req)
+                return .respond(dial!)
+            }
+        case .data(let payload):
+            if let message = try? Message.DialResponse(contiguousBytes: Array<UInt8>(req.payload.readableBytesView)) {
+                handleDialResponse(req: req, msg: message)
+            }
+            return .close
+        default: print("default outbound called")
+            return .close
+        }
         return .close
-        
     }
-    return .close
 }
 
 func requestDial(req: Request) -> ByteBuffer? {
@@ -41,11 +59,12 @@ func requestDial(req: Request) -> ByteBuffer? {
         req.logger.error("Identify::Unknown IdentityManager. Unable to contruct ping message")
         return nil
     }
+    
     if let peerinfo = manager.application?.peerInfo {
         let elem = manager.handleOutboundAutonatDial(addresses: peerinfo)
         return elem
     } else {
-       return nil
+        return nil
     }
 }
 
@@ -54,6 +73,9 @@ func handleDialRequest(req: Request, msg: Message.Dial) -> ByteBuffer? {
         req.logger.error("Identify::Unknown IdentityManager. Unable to contruct ping message")
         return nil
     }
-    
     return manager.handleDialRequest(msg: msg)
+}
+func handleDialResponse(req: Request, msg: Message.DialResponse) {
+    
+    print("dialResponseCalled")
 }

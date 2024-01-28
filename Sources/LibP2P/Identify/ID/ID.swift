@@ -354,7 +354,6 @@ extension Identify {
         var dial = Message.Dial()
         var info = Message.PeerInfo()
         
-        
         info.id = Data(addresses.peer.id)
         let ipAddress = addresses.addresses.map { multiaddress in
             do {
@@ -371,26 +370,61 @@ extension Identify {
             let data = try dial.serializedData()
             return self.application?.allocator.buffer(bytes: data.bytes)
         } catch {
-            print("couldnt serialize outbound autonat")
+            logger.error("Identify:: Couldnt Serialize outbound autonat")
             return nil
         }
     }
     
     func handleDialRequest(msg: Message.Dial) -> ByteBuffer? {
+        var peers: PeerInfo? = nil
         do {
             var peerID = try PeerID(fromBytesID: Array(msg.peer.id))
             let multiAddress: [Multiaddr] = try msg.peer.addrs.map { elem in
                 return try Multiaddr(elem)
             }
-            let peerInfo = PeerInfo(peer: peerID, addresses: multiAddress)
-            print("Test")
+            peers = PeerInfo(peer: peerID, addresses: multiAddress)
         } catch {
-            print("error deserialize PeerID")
+            logger.error("Identify:: Error deserialize PeerID: \(error)")
         }
         
+        guard let peerInfo = peers else {
+            logger.error("Identify:: DialRequest error")
+            return nil
+        }
         
-        return nil
+        let successfulPings = peerInfo.addresses.compactMap { addr in
+
+            var elem: Multiaddr?
+            self.application?.transports.canDial(addr, on: el).always({ result in
+                do {
+                    elem = try result.get() == true ? addr : nil
+                    print("elem: \(elem)")
+                } catch {
+                    print("Can't reach address: \(addr)")
+                    elem = nil
+                }
+            })
+//            print("elem: \(elem)")
+            return elem
+        }
+        
+        var dialResponse: Message.DialResponse = Message.DialResponse()
+        var responseStatus = Message.ResponseStatus(rawValue: successfulPings.isEmpty ? 100 : 0)
+        dialResponse.status = responseStatus ?? Message.ResponseStatus(rawValue: 300)!
+        do {
+            dialResponse.addr = try successfulPings.first?.binaryPacked() ?? Data()
+        } catch {
+            print("cannot convert successful Pings to data")
+        }
+        
+        do {
+            let data = try dialResponse.serializedData()
+            return self.application?.allocator.buffer(bytes: data.bytes)
+        } catch {
+            return nil
+        }
     }
+    
     func handleOutboundPingResponse(_ req: Request, pingResponse: [UInt8]) {
         self.el.execute {
             guard let pendingPing = self.pingCache.removeValue(forKey: pingResponse) else {
