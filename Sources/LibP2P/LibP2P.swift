@@ -42,6 +42,11 @@ public final class Application {
             addresses: self.listenAddresses
         )
     }
+    
+    /// Use the autonat protocol to determine
+    ///  if the current node is publicly reachable
+    private var isPubliclyReachable: Bool?
+    
 
     public struct Lifecycle {
         var handlers: [LifecycleHandler]
@@ -173,6 +178,7 @@ public final class Application {
         
         // DHT Services
         self.dht.initialize()
+//        self.dht.use(.kadDHT)
         
         // Commands
         self.commands.use(self.servers.command, as: "serve", isDefault: true)
@@ -290,6 +296,12 @@ extension LifecycleHandler {
 
 
 extension Application {
+    
+    public func autonatResult(isReachable: Bool) {
+        self.isPubliclyReachable = true
+//        self.dht.storage.dhtServices
+    }
+    
     private func registerEventHandlers() {
         self.logger.trace("Registering Root Subscriptions and Event Handlers! 📢👂")
         

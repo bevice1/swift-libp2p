@@ -76,6 +76,12 @@ func handleDialRequest(req: Request, msg: Message.Dial) -> ByteBuffer? {
     return manager.handleDialRequest(msg: msg)
 }
 func handleDialResponse(req: Request, msg: Message.DialResponse) {
-    
-    print("dialResponseCalled")
+    if let manager = req.application.identify as? Identify {
+        switch msg.status {
+        case .ok:
+            manager.application?.autonatResult(isReachable: true)
+        case .eDialError, .eDialRefused, .eBadRequest, .eInternalError:
+            manager.application?.autonatResult(isReachable: false)
+        }
+    }
 }

@@ -46,6 +46,8 @@ let package = Package(
         .package(url: "https://github.com/cesarferreira/SwiftEventBus.git", from: "5.0.0"),
         // SwiftState for state machines
         .package(url: "https://github.com/ReactKit/SwiftState.git", from: "6.0.0"),
+        // libp2p kad
+//        .package(url: "https://github.com/swift-libp2p/swift-libp2p-kad-dht", from: "0.1.0"),
     ],
     targets: [
         // C
