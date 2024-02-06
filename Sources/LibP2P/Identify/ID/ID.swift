@@ -42,7 +42,8 @@ public final class Identify: IdentityManager, CustomStringConvertible {
         static let PUSH = "/ipfs/id/push/1.0.0"
         static let ID = "/ipfs/id/1.0.0"
         static let AUTONAT = "/ipfs/autonat/1.0.0"
-        //        static let AUTONAT = "/libp2p/autonat/v1.0.0"
+        static let STOP = "/libp2p/circuit/relay/0.2.0/stop"
+        static let HOP = "/libp2p/circuit/relay/0.2.0/hop"
     }
     
     public var description: String {
@@ -350,6 +351,41 @@ extension Identify {
     }
     
     
+    func initiateHopMessage(addresses: PeerInfo) -> ByteBuffer? {
+        
+        
+        var status = Status(rawValue: 0)
+        guard let status = status else {
+            logger.trace("Error unwrapping Hop Message status")
+            return nil
+        }
+        
+//        var peer = Peer()
+//        
+//        peer.id = Data(addresses.peer.id)
+//        let ipAddress = addresses.addresses.map { multiaddress in
+//            do {
+//                let multiAddrBin = try multiaddress.binaryPacked()
+//                return multiAddrBin
+//            } catch {
+//                return Data()
+//            }
+//        }
+//        peer.addrs = ipAddress
+        
+        
+        
+        var hopMessage = HopMessage()
+        hopMessage.status = status
+        
+        do {
+            let data = try hopMessage.serializedData()
+            return self.application?.allocator.buffer(bytes: data.bytes)
+        } catch {
+            logger.error("Identify:: Couldnt Serialize outbound autonat")
+            return nil
+        }
+    }
     func handleOutboundAutonatDial(addresses: PeerInfo) -> ByteBuffer? {
         var dial = Message.Dial()
         var info = Message.PeerInfo()
@@ -374,6 +410,7 @@ extension Identify {
             return nil
         }
     }
+    
     
     func handleDialRequest(msg: Message.Dial) -> ByteBuffer? {
         var peers: PeerInfo? = nil
