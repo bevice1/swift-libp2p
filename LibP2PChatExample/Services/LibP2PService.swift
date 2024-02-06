@@ -186,4 +186,13 @@ class LibP2PService {
             }.flatten(on: self.app.eventLoopGroup.any())
         }
     }
+   // write function to send autonat
+    public func sendAutoNat() {
+        let _ = self.app.peers.getPeers(supportingProtocol: .init("ipfs/autonat/1.0.0")! ).map { peers in
+            return peers.compactMap { peerID in
+                self.app.identify.sendAutoNat(peer: try! PeerID(cid: peerID))
+            }
+        }
+    }
+    
 }

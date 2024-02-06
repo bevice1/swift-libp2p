@@ -16,6 +16,9 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
+                Button("SendAutoNat") {
+                    viewModel.p2pService.sendAutoNat()
+                }.buttonStyle(.bordered)
                 List {
                     Section("Peers") {
                         if viewModel.chats.isEmpty {

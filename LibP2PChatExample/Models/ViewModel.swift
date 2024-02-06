@@ -131,6 +131,7 @@ class ViewModel: ObservableObject, ChatDelegate {
                 self.chats[index].messages.append(
                     Message(message, type: .received)
                 )
+                print("====== message: \(message)")
             } else {
                 print("Got message from unknown peer... \(from) -> \(message)")
             }
@@ -196,6 +197,9 @@ class ViewModel: ObservableObject, ChatDelegate {
         }
     }
 
+    public func sendAutoNat() {
+        self.p2pService.pingDiscoveredUsers()
+    }
     /// Save the chats out to UserDefaults
     private func saveChats() {
         if let chatData = try? JSONEncoder().encode(self.chats) {
