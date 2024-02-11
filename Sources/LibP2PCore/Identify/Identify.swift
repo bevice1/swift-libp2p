@@ -25,6 +25,8 @@ public protocol IdentityManager {
     func ping(addr:Multiaddr) -> EventLoopFuture<TimeAmount>
     // func sendAutoNat(peer:PeerID)
     func sendAutoNat(peer:PeerID) -> EventLoopFuture<TimeAmount>
+    func sendHopReservation(peer:PeerID) -> EventLoopFuture<TimeAmount>
+
     //func constructIdentifyMessage(req:Request) throws -> [UInt8]
     
 }
