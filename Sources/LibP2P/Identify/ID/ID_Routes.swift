@@ -85,14 +85,16 @@ func routes(_ app: Application) throws {
     }
     // libp2p
     app.group("libp2p") { libp2p in
-        // libp2p/circuit/
+        // libp2p/circuit/0.2.0/
         libp2p.group("circuit", handlers: [.varIntLengthPrefixed]) { circuit in
             circuit.group("relay") { relay in
                 relay.group("0.2.0") { version in
+                    // libp2p/circuit/0.2.0/hop
                     version.on("hop") { req -> Response<ByteBuffer> in
                         print("hop called")
                         return  handleCircuitHopRequest(req)
                     }
+                    // libp2p/circuit/0.2.0/stop
                     version.on("stop") { req -> Response<ByteBuffer> in
                         print("stop called")
                         return handleCircuitStopRequest(req)

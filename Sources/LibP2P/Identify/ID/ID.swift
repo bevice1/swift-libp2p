@@ -92,6 +92,15 @@ public final class Identify: IdentityManager, CustomStringConvertible {
         }
     }
     
+    public func sendHopReservation(peer: PeerID) -> EventLoopFuture<TimeAmount> {
+        return self.application!.eventLoopGroup.next().flatSubmit { //} .flatScheduleTask(deadline: .now() + .seconds(3)) {
+            self.application!.logger.trace("Identify::Attempting to send hop reservation to \(peer)")
+            let promise = self.application!.eventLoopGroup.next().makePromise(of: TimeAmount.self)
+            try! self.application!.newStream(to: peer, forProtocol: Identify.Multicodecs.HOP)
+            return promise.futureResult
+        }
+    }
+    
     public func ping(addr: Multiaddr) -> EventLoopFuture<TimeAmount> {
         return self.application!.eventLoopGroup.next().flatSubmit { //ScheduleTask(deadline: .now() + .seconds(3)) {
             self.application!.logger.trace("Identify::Attempting to ping \(addr)")
@@ -353,12 +362,9 @@ extension Identify {
     
     func initiateHopMessage(addresses: PeerInfo) -> ByteBuffer? {
         
-        
-        var status = Status(rawValue: 0)
-        guard let status = status else {
-            logger.trace("Error unwrapping Hop Message status")
-            return nil
-        }
+        HopMessage.TypeEnum.status
+        var type = HopMessage.TypeEnum.reserve
+
         
 //        var peer = Peer()
 //        
@@ -376,7 +382,7 @@ extension Identify {
         
         
         var hopMessage = HopMessage()
-        hopMessage.status = status
+        hopMessage.type = type
         
         do {
             let data = try hopMessage.serializedData()
@@ -386,6 +392,51 @@ extension Identify {
             return nil
         }
     }
+    
+    func handleHopRequest(addresses: PeerInfo) -> ByteBuffer? {
+        var hopMessage = HopMessage()
+        let type = HopMessage.TypeEnum.status
+        
+        
+        // TODO: FIgure out if the reservation was successful
+        let status = Status(rawValue: 0)
+        guard let status = status else {
+            return nil
+        }
+        
+        // timelimit = 6 hours
+        let timelimit: UInt64 = 6*60*60
+        var reservation = Reservation()
+        reservation.expire = UInt64(Date().timeIntervalSince1970)+timelimit
+        let ipAddress = addresses.addresses.map { multiaddress in
+            do {
+                let multiAddrBin = try multiaddress.binaryPacked()
+                return multiAddrBin
+            } catch {
+                return Data()
+            }
+        }
+        reservation.addrs = ipAddress
+        
+        var limit = Limit()
+        limit.duration = 0
+        limit.data = 0
+        
+       
+        hopMessage.status = status
+        hopMessage.type = type
+        hopMessage.limit = limit
+        hopMessage.reservation = reservation
+        
+        do {
+            let data = try hopMessage.serializedData()
+            return self.application?.allocator.buffer(bytes: data.bytes)
+        } catch {
+            logger.error("Identify:: Couldnt Serialize outbound autonat")
+            return nil
+        }
+    }
+    
     func handleOutboundAutonatDial(addresses: PeerInfo) -> ByteBuffer? {
         var dial = Message.Dial()
         var info = Message.PeerInfo()
