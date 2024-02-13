@@ -362,7 +362,6 @@ extension Identify {
     
     func initiateHopMessage(addresses: PeerInfo) -> ByteBuffer? {
         
-        HopMessage.TypeEnum.status
         var type = HopMessage.TypeEnum.reserve
 
         
@@ -399,7 +398,7 @@ extension Identify {
         
         
         // TODO: FIgure out if the reservation was successful
-        let status = Status(rawValue: 0)
+        let status = Status(rawValue: 100)
         guard let status = status else {
             return nil
         }
