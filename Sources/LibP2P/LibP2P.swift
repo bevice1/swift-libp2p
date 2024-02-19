@@ -45,7 +45,12 @@ public final class Application {
     
     /// Use the autonat protocol to determine
     ///  if the current node is publicly reachable
-    private var isPubliclyReachable: Bool?
+    public var isPubliclyReachable: Bool?
+    
+    /// use the circuit relay v2 protocol to create a new reservation
+    public var reservationSuccessfull: Bool?
+    
+    public var reservations: [String] = []
     
 
     public struct Lifecycle {
@@ -300,6 +305,10 @@ extension Application {
     public func autonatResult(isReachable: Bool) {
         self.isPubliclyReachable = true
 //        self.dht.storage.dhtServices
+    }
+    
+    public func reservationResult(reservationSuccessfull: Bool) {
+        self.reservationSuccessfull = reservationSuccessfull
     }
     
     private func registerEventHandlers() {

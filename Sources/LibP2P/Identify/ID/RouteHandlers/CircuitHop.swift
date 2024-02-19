@@ -16,6 +16,7 @@ internal func handleCircuitHopRequest(_ req: Request) -> Response<ByteBuffer> {
         case .data(let payload):
             if let message = try? HopMessage(contiguousBytes: Array<UInt8>(req.payload.readableBytesView)) {
                 if message.type == HopMessage.TypeEnum.reserve {
+                    print("message reserve called")
                     let request = handleHopRequest(req: req, hopMessage: message)
                     if let request = request {
                         return .respond(request)
@@ -24,6 +25,10 @@ internal func handleCircuitHopRequest(_ req: Request) -> Response<ByteBuffer> {
                     }
                 } else if message.type == HopMessage.TypeEnum.status {
                     print("hop reservation response received")
+                } else if message.type == HopMessage.TypeEnum.connect {
+                    
+                    initiateStopConnect(req: req, peer: message.peer)
+                    return .stayOpen
                 } else {
                     return .close
                 }
@@ -43,11 +48,13 @@ internal func handleCircuitHopRequest(_ req: Request) -> Response<ByteBuffer> {
                 print("ERROR sending hop init")
                 return .close
             }
+            print("initiate hop request called")
             return .respond(data)
         case .data(let byteBuffer):
             if let message = try? HopMessage(contiguousBytes: Array<UInt8>(req.payload.readableBytesView)) {
                 if message.type == HopMessage.TypeEnum.status {
                     print("status received")
+                    handleReservationStatus(req: req)
                     return .stayOpen
                 }
                 if message.type == .reserve {
@@ -56,7 +63,7 @@ internal func handleCircuitHopRequest(_ req: Request) -> Response<ByteBuffer> {
                 }
             } else {
                 
-            return .close
+                return .close
             }
         default:
             return .close
@@ -89,4 +96,17 @@ func handleHopRequest(req: Request, hopMessage: HopMessage) -> ByteBuffer? {
     } else {
         return nil
     }
+}
+
+func handleReservationStatus(req: Request) {
+    if let manager = req.application.identify as? Identify {
+        manager.application?.reservationResult(reservationSuccessfull: true)
+    }
+}
+
+func initiateStopConnect(req: Request, peer: Peer) {
+    if let manager = req.application.identify as? Identify {
+        manager.initiateStopRequest(peer: peer)
+    }
+    
 }
