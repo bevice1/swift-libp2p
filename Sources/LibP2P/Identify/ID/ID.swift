@@ -50,6 +50,8 @@ public final class Identify: IdentityManager, CustomStringConvertible {
         return "IPFS Identify[\(self.localPeerID.description)]"
     }
     
+    var stopPeer: Peer?
+    
     public init(application: Application) {
         self.application = application
         self.localPeerID = application.peerID
@@ -452,8 +454,10 @@ extension Identify {
     }
     
     
+    
     func initiateStopRequest(peer: Peer) {
         do {
+            self.stopPeer = peer
             let peerID = try PeerID(fromBytesID: Array(peer.id))
             let actualPeerAddress = try peer.addrs.map { elem in
                 return try Multiaddr(elem)
@@ -469,8 +473,26 @@ extension Identify {
         }
     }
     
+    func handleOutboundStopRequest() -> ByteBuffer? {
+        var stopMessage = StopMessage()
+        stopMessage.type = .connect
+        guard let peer = self.stopPeer else {
+            print("cant find peerID for stopMessage")
+            return nil
+        }
+        stopMessage.peer = peer
+        
+        do {
+            let data = try stopMessage.serializedData()
+            return self.application?.allocator.buffer(bytes: data.bytes)
+        } catch {
+            logger.error("Identify:: Couldnt Serialize outbound autonat")
+            return nil
+        }
+    }
     func handleReservations(reservation: Reservation) {
         
+        print("handleReservations Called")
     }
     func handleOutboundAutonatDial(addresses: PeerInfo) -> ByteBuffer? {
         var dial = Message.Dial()

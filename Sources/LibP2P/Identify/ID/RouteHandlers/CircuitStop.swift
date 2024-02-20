@@ -24,7 +24,11 @@ internal func handleCircuitStopRequest(_ req: Request) -> Response<ByteBuffer> {
     case .outbound:
         switch req.event {
         case .ready:
-            print("ready")
+            if let response = stopConnect(req: req) {
+                return .respond(response)
+            } else {
+                return .close
+            }
         case .data(let byteBuffer):
             print("data")
         case .closed:
@@ -34,4 +38,11 @@ internal func handleCircuitStopRequest(_ req: Request) -> Response<ByteBuffer> {
         }
         return .close
     }
+}
+
+func stopConnect(req: Request ) -> ByteBuffer? {
+    if let manager = req.application.identify as? Identify {
+        return manager.handleOutboundStopRequest()
+    }
+    return nil
 }

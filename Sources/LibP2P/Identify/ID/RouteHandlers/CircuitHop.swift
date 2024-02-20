@@ -54,11 +54,17 @@ internal func handleCircuitHopRequest(_ req: Request) -> Response<ByteBuffer> {
             if let message = try? HopMessage(contiguousBytes: Array<UInt8>(req.payload.readableBytesView)) {
                 if message.type == HopMessage.TypeEnum.status {
                     print("status received")
+                    initiateStopConnect(req: req, peer: message.peer)
                     handleReservationStatus(req: req)
+                    
                     return .stayOpen
                 }
                 if message.type == .reserve {
                     print("reserve sending")
+                    return .stayOpen
+                }
+                if message.type == .connect {
+                    initiateStopConnect(req: req, peer: message.peer)
                     return .stayOpen
                 }
             } else {
