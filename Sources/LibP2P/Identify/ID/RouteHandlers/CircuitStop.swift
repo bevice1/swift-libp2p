@@ -13,7 +13,16 @@ internal func handleCircuitStopRequest(_ req: Request) -> Response<ByteBuffer> {
         case .ready:
             print("ready")
         case .data(let byteBuffer):
-            print("data")
+            if let message = try? StopMessage(contiguousBytes: Array<UInt8>(req.payload.readableBytesView)) {
+                if(message.type == .connect) {
+                    let request = handleStopRequest(req: req, stopMessage: message)
+                    if let request = request {
+                        return .respond(request)
+                    } else {
+                        return .close
+                    }
+                }
+            }
         case .closed:
             print("closed")
         case .error(let error):
@@ -45,4 +54,14 @@ func stopConnect(req: Request ) -> ByteBuffer? {
         return manager.handleOutboundStopRequest()
     }
     return nil
+}
+func handleStopRequest(req: Request, stopMessage: StopMessage) -> ByteBuffer? {
+    guard let manager = req.application.identify as? Identify else {
+        req.logger.error("Identify::Unknown IdentityManager. Unable to contruct stop message")
+        return nil
+    }
+    
+    let elem = manager.handleStopRequest(peer: stopMessage.peer)
+        return elem
+    
 }

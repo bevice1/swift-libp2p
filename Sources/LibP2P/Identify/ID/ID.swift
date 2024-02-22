@@ -453,6 +453,20 @@ extension Identify {
         }
     }
     
+    func handleStopRequest(peer: Peer) -> ByteBuffer? {
+        do {
+            let peerID = try PeerID(fromBytesID: Array(peer.id))
+            // try to connect
+            
+            var stopAcceptMessage = StopMessage()
+            stopAcceptMessage.type = .status
+            stopAcceptMessage.status = .ok
+            let data = try stopAcceptMessage.serializedData()
+            return self.application?.allocator.buffer(bytes: data.bytes)
+        } catch {
+           return nil
+        }
+    }
     
     
     func initiateStopRequest(peer: Peer) {
