@@ -458,6 +458,8 @@ extension Identify {
             let peerID = try PeerID(fromBytesID: Array(peer.id))
             // try to connect
             
+            try self.application?.newStream(to: peerID, forProtocol: Multicodecs.ID)
+            
             var stopAcceptMessage = StopMessage()
             stopAcceptMessage.type = .status
             stopAcceptMessage.status = .ok
