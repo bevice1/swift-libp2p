@@ -51,6 +51,8 @@ public final class Application {
     public var reservationSuccessfull: Bool?
     
     public var reservations: [String] = []
+    public var reservationHandler: ((PeerInfo) -> Void)?
+    
     
 
     public struct Lifecycle {

@@ -408,6 +408,7 @@ extension Identify {
     }
     
     func handleHopRequest(addresses: PeerInfo) -> ByteBuffer? {
+
         var hopMessage = HopMessage()
         let type = HopMessage.TypeEnum.status
         
@@ -442,7 +443,7 @@ extension Identify {
         hopMessage.limit = limit
         hopMessage.reservation = reservation
         
-        handleReservations(reservation: reservation)
+        handleReservations(peerInfo: addresses, reservation: reservation)
         
         do {
             let data = try hopMessage.serializedData()
@@ -506,9 +507,11 @@ extension Identify {
             return nil
         }
     }
-    func handleReservations(reservation: Reservation) {
+    func handleReservations(peerInfo: PeerInfo, reservation: Reservation) {
         
-        print("handleReservations Called")
+        if let function = self.application?.reservationHandler {
+           function(peerInfo)
+        }
     }
     func handleOutboundAutonatDial(addresses: PeerInfo) -> ByteBuffer? {
         var dial = Message.Dial()
