@@ -7,9 +7,6 @@
 [submodule "Implementation/Project/Core"]
 	path = Implementation/Project/Core
 	url = https://github.com/bevice1/swift-libp2p-core
-[submodule "Implementation/Project/dnsaddr"]
-	path = Implementation/Project/dnsaddr
-	url = https://github.com/bevice1/swift-libp2p-dnsaddr
 [submodule "Implementation/Project/ChatAppExample-iOS"]
 	path = Implementation/Project/ChatAppExample-iOS
 	url = /Users/bk/Library/CloudStorage/OneDrive-FHOOe/Master/Masterarbeit/p11/Implementation/Project/ChatAppExample-iOS
