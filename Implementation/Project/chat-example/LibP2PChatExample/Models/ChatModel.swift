@@ -45,6 +45,7 @@ class Person:ObservableObject, Identifiable, Codable {
     var peer:PeerID
     @Published var nickname:String
     @Published var isActive:Bool
+    @Published var reservations: String
     
     var initials:String {
         let parts = nickname.split(separator: " ")
@@ -55,11 +56,12 @@ class Person:ObservableObject, Identifiable, Codable {
         }
     }
     
-    internal init(id: String, peer: PeerID, nickname: String, isActive: Bool) {
+    internal init(id: String, peer: PeerID, nickname: String, isActive: Bool, reservations: String = "") {
         self.id = id
         self.peer = peer
         self.nickname = nickname
         self.isActive = isActive
+        self.reservations = reservations
     }
     
     enum CodingKeys: String, CodingKey {
@@ -82,6 +84,7 @@ class Person:ObservableObject, Identifiable, Codable {
         peer = try PeerID(marshaledPublicKey: Data(pubKey))
         nickname = try values.decode(String.self, forKey: .nickname)
         isActive = false
+        reservations  = ""
     }
 }
 

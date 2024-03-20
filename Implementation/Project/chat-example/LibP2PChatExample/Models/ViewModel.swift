@@ -9,6 +9,8 @@ import LibP2P
 import SwiftUI
 
 class ViewModel: ObservableObject, ChatDelegate {
+ 
+    
     @Published var isReady:Bool = false
     @Published var groups: [String]
     @Published var chats: [Chat]
@@ -19,8 +21,11 @@ class ViewModel: ObservableObject, ChatDelegate {
             UserDefaults.standard.set(self.nickname, forKey: "Nickname")
         }
     }
+    @Published var reservationSuccessful: Bool?
+    @Published var reservations: [String] = []
 
     public private(set) var p2pService: LibP2PService!
+   
 
     init() {
         // Dummy data
@@ -53,7 +58,11 @@ class ViewModel: ObservableObject, ChatDelegate {
                     )
                 )
             )
+            
+            self.p2pService.topology(
+            TopologyRegistration(protocol: "/libp2p/circuit/0.2.0/hop", handler: TopologyHandler(onConnect: onReservationBuddyJoined)))
 
+            
             // Register ourselves as the ChatDelegate
             // `p2pService` will call our `on(message:)` and `on(nickname:)` methods
             self.p2pService.delegate = self
@@ -65,13 +74,25 @@ class ViewModel: ObservableObject, ChatDelegate {
                 self.p2pService.stop()
             }
             
+            self.p2pService.app.reservationHandler = reservationHandlerFunc
+            reservations = self.p2pService.app.reservations
             // Let our UI know that the libp2p service has initialized (this enables the settings icon and start/stop toggle)
             DispatchQueue.main.async {
                 self.isReady = true
             }
         }
     }
+    private func reservationHandlerFunc(peer: PeerInfo) {
+        print("reservationHandlerfunc called")
+        let address = peer.addresses
+        self.reservations.append("Peer: \(peer.peer) with address: \(address)")
+        
+        
+    }
 
+    private func onReservationBuddyJoined(peer: PeerID, conn: Connection) {
+        print("onreservationBuddyjoined called")
+    }
     /// This method gets called by our `Topology` Registration when a libp2p peer that supports the `/chat/1.0.0` protocol becomes active / comes online.
     private func onChatBuddyJoined(peer: PeerID, conn: Connection) {
         DispatchQueue.main.async {
@@ -200,6 +221,16 @@ class ViewModel: ObservableObject, ChatDelegate {
     public func sendAutoNat() {
         self.p2pService.pingDiscoveredUsers()
     }
+    
+    public func sendHopRequest() {
+        let reservationSuccessful = self.p2pService.sendHopReservation()
+//        self.reservations = reservations
+        self.reservationSuccessful = reservationSuccessful
+    }
+    
+    public func getReservations() {
+        reservations = self.p2pService.getReservations()
+    }
     /// Save the chats out to UserDefaults
     private func saveChats() {
         if let chatData = try? JSONEncoder().encode(self.chats) {
@@ -263,3 +294,5 @@ class ViewModel: ObservableObject, ChatDelegate {
         self.saveChats()
     }
 }
+
+

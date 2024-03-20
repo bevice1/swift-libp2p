@@ -3,12 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4055556E2B66A0940054BB5B /* LibP2PKadDHT in Frameworks */ = {isa = PBXBuildFile; productRef = 4055556D2B66A0940054BB5B /* LibP2PKadDHT */; };
+		407623522B94B82700C186EA /* LibReservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407623512B94B82700C186EA /* LibReservation.swift */; };
+		40BC7EA02B4BE9FA00CA351F /* LibP2PNoise in Frameworks */ = {isa = PBXBuildFile; productRef = 40BC7E9F2B4BE9FA00CA351F /* LibP2PNoise */; };
+		40BC7EA22B4BEA7900CA351F /* LibP2PNoise in Frameworks */ = {isa = PBXBuildFile; productRef = 40BC7EA12B4BEA7900CA351F /* LibP2PNoise */; };
+		40BC7EA52B4BEB7400CA351F /* LibP2PNoise in Frameworks */ = {isa = PBXBuildFile; productRef = 40BC7EA42B4BEB7400CA351F /* LibP2PNoise */; };
+		40BC7EA82B4BEB8C00CA351F /* LibP2P in Frameworks */ = {isa = PBXBuildFile; productRef = 40BC7EA72B4BEB8C00CA351F /* LibP2P */; };
 		95394E6029F2F4F8009A74DF /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95394E5F29F2F4F8009A74DF /* Routes.swift */; };
-		95394E6829F45781009A74DF /* LibP2P in Frameworks */ = {isa = PBXBuildFile; productRef = 95394E6729F45781009A74DF /* LibP2P */; };
 		95D22A7329F5E87400DF98C7 /* LibP2PMDNS in Frameworks */ = {isa = PBXBuildFile; productRef = 95D22A7229F5E87400DF98C7 /* LibP2PMDNS */; };
 		CA3C5405286A2BC2001E1858 /* LibP2PChatExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3C5404286A2BC2001E1858 /* LibP2PChatExampleApp.swift */; };
 		CA3C5409286A2BC2001E1858 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA3C5408286A2BC2001E1858 /* Assets.xcassets */; };
@@ -22,12 +27,12 @@
 		CA3C5426286A2BEF001E1858 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3C541C286A2BEF001E1858 /* ChatView.swift */; };
 		CA3C5427286A2BEF001E1858 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3C541D286A2BEF001E1858 /* ContentView.swift */; };
 		CA3C5428286A2BEF001E1858 /* ChatRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3C541E286A2BEF001E1858 /* ChatRow.swift */; };
-		CA3C542E286A2C3C001E1858 /* LibP2PNoise in Frameworks */ = {isa = PBXBuildFile; productRef = CA3C542D286A2C3C001E1858 /* LibP2PNoise */; };
 		CA3C5431286A2C4F001E1858 /* LibP2PMPLEX in Frameworks */ = {isa = PBXBuildFile; productRef = CA3C5430286A2C4F001E1858 /* LibP2PMPLEX */; };
 		CA3C5436286A3264001E1858 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = CA3C5435286A3264001E1858 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		407623512B94B82700C186EA /* LibReservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibReservation.swift; sourceTree = "<group>"; };
 		95394E5F29F2F4F8009A74DF /* Routes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routes.swift; sourceTree = "<group>"; };
 		CA3C5401286A2BC2001E1858 /* LibP2PChatExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibP2PChatExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3C5404286A2BC2001E1858 /* LibP2PChatExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibP2PChatExampleApp.swift; sourceTree = "<group>"; };
@@ -52,10 +57,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40BC7EA52B4BEB7400CA351F /* LibP2PNoise in Frameworks */,
+				40BC7EA82B4BEB8C00CA351F /* LibP2P in Frameworks */,
+				40BC7EA22B4BEA7900CA351F /* LibP2PNoise in Frameworks */,
 				CA3C5431286A2C4F001E1858 /* LibP2PMPLEX in Frameworks */,
+				4055556E2B66A0940054BB5B /* LibP2PKadDHT in Frameworks */,
 				95D22A7329F5E87400DF98C7 /* LibP2PMDNS in Frameworks */,
-				CA3C542E286A2C3C001E1858 /* LibP2PNoise in Frameworks */,
-				95394E6829F45781009A74DF /* LibP2P in Frameworks */,
+				40BC7EA02B4BE9FA00CA351F /* LibP2PNoise in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +116,7 @@
 			children = (
 				CA3C5413286A2BEF001E1858 /* ChatModel.swift */,
 				CA3C5414286A2BEF001E1858 /* ViewModel.swift */,
+				407623512B94B82700C186EA /* LibReservation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -158,10 +167,13 @@
 			);
 			name = LibP2PChatExample;
 			packageProductDependencies = (
-				CA3C542D286A2C3C001E1858 /* LibP2PNoise */,
 				CA3C5430286A2C4F001E1858 /* LibP2PMPLEX */,
-				95394E6729F45781009A74DF /* LibP2P */,
 				95D22A7229F5E87400DF98C7 /* LibP2PMDNS */,
+				40BC7E9F2B4BE9FA00CA351F /* LibP2PNoise */,
+				40BC7EA12B4BEA7900CA351F /* LibP2PNoise */,
+				40BC7EA42B4BEB7400CA351F /* LibP2PNoise */,
+				40BC7EA72B4BEB8C00CA351F /* LibP2P */,
+				4055556D2B66A0940054BB5B /* LibP2PKadDHT */,
 			);
 			productName = LibP2PChatExample;
 			productReference = CA3C5401286A2BC2001E1858 /* LibP2PChatExample.app */;
@@ -192,10 +204,11 @@
 			);
 			mainGroup = CA3C53F8286A2BC2001E1858;
 			packageReferences = (
-				CA3C542C286A2C3C001E1858 /* XCRemoteSwiftPackageReference "swift-libp2p-noise" */,
 				CA3C542F286A2C4F001E1858 /* XCRemoteSwiftPackageReference "swift-libp2p-mplex" */,
-				95394E6629F45781009A74DF /* XCRemoteSwiftPackageReference "swift-libp2p" */,
 				95D22A7129F5E87400DF98C7 /* XCRemoteSwiftPackageReference "swift-libp2p-mdns" */,
+				40BC7EA32B4BEB7400CA351F /* XCRemoteSwiftPackageReference "swift-libp2p-noise" */,
+				40BC7EA62B4BEB8C00CA351F /* XCLocalSwiftPackageReference "../../p11/Implementation/Project/swift-libp2p" */,
+				4055556C2B66A0940054BB5B /* XCRemoteSwiftPackageReference "swift-libp2p-kad-dht" */,
 			);
 			productRefGroup = CA3C5402286A2BC2001E1858 /* Products */;
 			projectDirPath = "";
@@ -224,6 +237,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				407623522B94B82700C186EA /* LibReservation.swift in Sources */,
 				CA3C5422286A2BEF001E1858 /* LocalNetworkAuthorization.swift in Sources */,
 				CA3C5423286A2BEF001E1858 /* LibP2PService.swift in Sources */,
 				CA3C5425286A2BEF001E1858 /* PeerIconView.swift in Sources */,
@@ -364,7 +378,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LibP2PChatExample/Preview Content\"";
-				DEVELOPMENT_TEAM = EF4K9WDULC;
+				DEVELOPMENT_TEAM = 6QXRWZ6L82;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LibP2PChatExample/Info.plist;
@@ -396,7 +410,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LibP2PChatExample/Preview Content\"";
-				DEVELOPMENT_TEAM = EF4K9WDULC;
+				DEVELOPMENT_TEAM = 6QXRWZ6L82;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LibP2PChatExample/Info.plist;
@@ -442,13 +456,28 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		40BC7EA62B4BEB8C00CA351F /* XCLocalSwiftPackageReference "../../p11/Implementation/Project/swift-libp2p" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../../p11/Implementation/Project/swift-libp2p";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
-		95394E6629F45781009A74DF /* XCRemoteSwiftPackageReference "swift-libp2p" */ = {
+		4055556C2B66A0940054BB5B /* XCRemoteSwiftPackageReference "swift-libp2p-kad-dht" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/swift-libp2p/swift-libp2p";
+			repositoryURL = "https://github.com/swift-libp2p/swift-libp2p-kad-dht";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.11;
+				minimumVersion = 0.1.0;
+			};
+		};
+		40BC7EA32B4BEB7400CA351F /* XCRemoteSwiftPackageReference "swift-libp2p-noise" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bevice1/swift-libp2p-noise";
+			requirement = {
+				branch = main;
+				kind = branch;
 			};
 		};
 		95D22A7129F5E87400DF98C7 /* XCRemoteSwiftPackageReference "swift-libp2p-mdns" */ = {
@@ -457,14 +486,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.0.2;
-			};
-		};
-		CA3C542C286A2C3C001E1858 /* XCRemoteSwiftPackageReference "swift-libp2p-noise" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/swift-libp2p/swift-libp2p-noise.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.2;
 			};
 		};
 		CA3C542F286A2C4F001E1858 /* XCRemoteSwiftPackageReference "swift-libp2p-mplex" */ = {
@@ -478,20 +499,32 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		95394E6729F45781009A74DF /* LibP2P */ = {
+		4055556D2B66A0940054BB5B /* LibP2PKadDHT */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 95394E6629F45781009A74DF /* XCRemoteSwiftPackageReference "swift-libp2p" */;
+			package = 4055556C2B66A0940054BB5B /* XCRemoteSwiftPackageReference "swift-libp2p-kad-dht" */;
+			productName = LibP2PKadDHT;
+		};
+		40BC7E9F2B4BE9FA00CA351F /* LibP2PNoise */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LibP2PNoise;
+		};
+		40BC7EA12B4BEA7900CA351F /* LibP2PNoise */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LibP2PNoise;
+		};
+		40BC7EA42B4BEB7400CA351F /* LibP2PNoise */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 40BC7EA32B4BEB7400CA351F /* XCRemoteSwiftPackageReference "swift-libp2p-noise" */;
+			productName = LibP2PNoise;
+		};
+		40BC7EA72B4BEB8C00CA351F /* LibP2P */ = {
+			isa = XCSwiftPackageProductDependency;
 			productName = LibP2P;
 		};
 		95D22A7229F5E87400DF98C7 /* LibP2PMDNS */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 95D22A7129F5E87400DF98C7 /* XCRemoteSwiftPackageReference "swift-libp2p-mdns" */;
 			productName = LibP2PMDNS;
-		};
-		CA3C542D286A2C3C001E1858 /* LibP2PNoise */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CA3C542C286A2C3C001E1858 /* XCRemoteSwiftPackageReference "swift-libp2p-noise" */;
-			productName = LibP2PNoise;
 		};
 		CA3C5430286A2C4F001E1858 /* LibP2PMPLEX */ = {
 			isa = XCSwiftPackageProductDependency;

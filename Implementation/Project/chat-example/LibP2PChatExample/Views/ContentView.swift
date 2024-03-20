@@ -19,6 +19,17 @@ struct ContentView: View {
                 Button("SendAutoNat") {
                     viewModel.p2pService.sendAutoNat()
                 }.buttonStyle(.bordered)
+                HStack {
+                    
+                    Button("send hop-reservation") {
+                        viewModel.sendHopRequest()
+                    }
+                    .buttonStyle(.bordered)
+                }
+                
+                Text("reservations: \(viewModel.reservations.joined())")
+                    .padding(16)
+                
                 List {
                     Section("Peers") {
                         if viewModel.chats.isEmpty {
