@@ -9,11 +9,16 @@ import LibP2P
 import LibP2PNoise
 import LibP2PMPLEX
 import LibP2PMDNS
+import LibP2PKadDHT
 
 /// Any class that conforms to the ChatDelegate can register themselves on the LibP2PService to get notified of Chat events
 protocol ChatDelegate {
     func on(message:String, from:PeerID)
     func on(nickname:String, from:PeerID)
+}
+
+protocol ReservationDelegate {
+    func onReservation(received: Multiaddr)
 }
 
 /// We extend the Request struct with a computed var that provides access to a shared instance of our LibP2PService.
@@ -31,9 +36,11 @@ extension Request {
 class LibP2PService {
     static let shared = LibP2PService()
 
-    private var app:Application
+    var app:Application
     
     internal var delegate:ChatDelegate? = nil
+    
+    internal var reservationDelegate: ReservationDelegate? = nil
     
     //private var lna:LocalNetworkAuthorization
     
@@ -71,13 +78,29 @@ class LibP2PService {
         self.app.security.use(.noise)
         self.app.muxers.use(.mplex)
         self.app.discovery.use(.mdns)
-        self.app.servers.use(.tcp(host: "0.0.0.0", port: 10000))
+//        self.app.resolvers.use(.dnsaddr)
+        self.app.dht.use(.kadDHT)
+//        self.app.dht.use(.kadDHT)
+        Task {
+            let elem = try await self.app.peers.all().get().first
+            print("First peer: \(elem?.id)" )
+//            let routingTableInfo = await app.dhts.for(id: "MyDHT").routingTableInfo()
+            
+            
+            
+        }
+        print("routes: \(app.routes.all)")
+        
+        let port = Int.random(in: 10000...10100)
+        self.app.servers.use(.tcp(host: "0.0.0.0", port: port))
         
         // Register the `/chat/1.0.0` Protocol / Route
         try! routes(self.app)
         
         // Used to request Local Network Access
         //self.lna = LocalNetworkAuthorization()
+//        self.app.dht.kadDHT.
+    
     }
     
     public func deletePeerID() {
@@ -107,6 +130,17 @@ class LibP2PService {
                     try? self.app.newStream(to: peer.addresses.first!, forProtocol: "/chat/1.0.0")
                 }
             }
+               Task {
+            let elem = try await self.app.peers.all().get()
+                   print("First peer: \(elem.first?.id)" )
+                   
+                print("DHT available: \(self.app.dht.available)")
+                  print("Discovery Available: \(self.app.discovery.available)")
+                   print("Clients available: \(self.app.clients.available)" )
+                   print("Servers: \(self.app.servers.available)" )
+                   print("Peer info: \(self.app.peerInfo.peer)")
+           print(self.app.clients.available)
+        }
         }
         
         // We remove any old addresses upon disconnection...
@@ -194,5 +228,24 @@ class LibP2PService {
             }
         }
     }
+    
+    public func sendHopReservation() -> Bool {
+        let _ = self.app.peers.getPeers(supportingProtocol: .init("libp2p/circuit/relay/0.2.0/hop")! ).map { peers in
+            print("peers: \(peers.count)")
+            return peers.compactMap { peerID in
+                self.app.identify.sendHopReservation(peer: try! PeerID(cid: peerID))
+            }
+        }
+        return self.app.reservationSuccessfull ?? false
+       
+    }
+    
+    public func getReservations() -> [String] {
+         return self.app.reservations
+    }
+    public func reservationSuccessful() -> Bool {
+        return self.app.reservationSuccessfull ?? false
+    }
+    
     
 }

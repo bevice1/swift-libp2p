@@ -84,6 +84,7 @@ struct ChatView: View {
             .padding(.bottom, 0)
             
             VStack {
+                
                 Spacer()
                 toolbarView()
             }
