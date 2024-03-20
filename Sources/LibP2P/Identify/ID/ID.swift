@@ -42,12 +42,15 @@ public final class Identify: IdentityManager, CustomStringConvertible {
         static let PUSH = "/ipfs/id/push/1.0.0"
         static let ID = "/ipfs/id/1.0.0"
         static let AUTONAT = "/ipfs/autonat/1.0.0"
-        //        static let AUTONAT = "/libp2p/autonat/v1.0.0"
+        static let STOP = "/libp2p/circuit/relay/0.2.0/stop"
+        static let HOP = "/libp2p/circuit/relay/0.2.0/hop"
     }
     
     public var description: String {
         return "IPFS Identify[\(self.localPeerID.description)]"
     }
+    
+    var stopPeer: Peer?
     
     public init(application: Application) {
         self.application = application
@@ -87,6 +90,15 @@ public final class Identify: IdentityManager, CustomStringConvertible {
             self.application!.logger.trace("Identify::Attempting to send Autonat to \(peer)")
             let promise = self.application!.eventLoopGroup.next().makePromise(of: TimeAmount.self)
             try! self.application!.newStream(to: peer, forProtocol: Identify.Multicodecs.AUTONAT)
+            return promise.futureResult
+        }
+    }
+    
+    public func sendHopReservation(peer: PeerID) -> EventLoopFuture<TimeAmount> {
+        return self.application!.eventLoopGroup.next().flatSubmit { //} .flatScheduleTask(deadline: .now() + .seconds(3)) {
+            self.application!.logger.trace("Identify::Attempting to send hop reservation to \(peer)")
+            let promise = self.application!.eventLoopGroup.next().makePromise(of: TimeAmount.self)
+            try! self.application!.newStream(to: peer, forProtocol: Identify.Multicodecs.HOP)
             return promise.futureResult
         }
     }
@@ -350,6 +362,157 @@ extension Identify {
     }
     
     
+    func initHopConnect(addresses: PeerInfo) -> ByteBuffer? {
+        var type = HopMessage.TypeEnum.connect
+
+        
+        var peer = Peer()
+
+        peer.id = Data(addresses.peer.id)
+        let ipAddress = addresses.addresses.map { multiaddress in
+            do {
+                let multiAddrBin = try multiaddress.binaryPacked()
+                return multiAddrBin
+            } catch {
+                return Data()
+            }
+        }
+        peer.addrs = ipAddress
+        
+        
+        var hopMessage = HopMessage()
+        hopMessage.type = type
+        hopMessage.peer = peer
+        
+        do {
+            let data = try hopMessage.serializedData()
+            return self.application?.allocator.buffer(bytes: data.bytes)
+        } catch {
+            logger.error("Identify:: Couldnt Serialize outbound autonat")
+            return nil
+        }
+    }
+    func initiateHopMessage(addresses: PeerInfo) -> ByteBuffer? {
+        
+        var type = HopMessage.TypeEnum.reserve
+        var hopMessage = HopMessage()
+        hopMessage.type = type
+        
+        do {
+            let data = try hopMessage.serializedData()
+            return self.application?.allocator.buffer(bytes: data.bytes)
+        } catch {
+            logger.error("Identify:: Couldnt Serialize outbound autonat")
+            return nil
+        }
+    }
+    
+    func handleHopRequest(addresses: PeerInfo) -> ByteBuffer? {
+
+        var hopMessage = HopMessage()
+        let type = HopMessage.TypeEnum.status
+        
+        
+        // TODO: FIgure out if the reservation was successful
+        let status = Status(rawValue: 100)
+        guard let status = status else {
+            return nil
+        }
+        
+        // timelimit = 6 hours
+        let timelimit: UInt64 = 6*60*60
+        var reservation = Reservation()
+        reservation.expire = UInt64(Date().timeIntervalSince1970)+timelimit
+        let ipAddress = addresses.addresses.map { multiaddress in
+            do {
+                let multiAddrBin = try multiaddress.binaryPacked()
+                return multiAddrBin
+            } catch {
+                return Data()
+            }
+        }
+        reservation.addrs = ipAddress
+        
+        var limit = Limit()
+        limit.duration = 0
+        limit.data = 0
+        
+       
+        hopMessage.status = status
+        hopMessage.type = type
+        hopMessage.limit = limit
+        hopMessage.reservation = reservation
+        
+        handleReservations(peerInfo: addresses, reservation: reservation)
+        
+        do {
+            let data = try hopMessage.serializedData()
+            return self.application?.allocator.buffer(bytes: data.bytes)
+        } catch {
+            logger.error("Identify:: Couldnt Serialize outbound autonat")
+            return nil
+        }
+    }
+    
+    func handleStopRequest(peer: Peer) -> ByteBuffer? {
+        do {
+            let peerID = try PeerID(fromBytesID: Array(peer.id))
+            // try to connect
+            
+            try self.application?.newStream(to: peerID, forProtocol: Multicodecs.ID)
+            
+            var stopAcceptMessage = StopMessage()
+            stopAcceptMessage.type = .status
+            stopAcceptMessage.status = .ok
+            let data = try stopAcceptMessage.serializedData()
+            return self.application?.allocator.buffer(bytes: data.bytes)
+        } catch {
+           return nil
+        }
+    }
+    
+    
+    func initiateStopRequest(peer: Peer) {
+        do {
+            self.stopPeer = peer
+            let peerID = try PeerID(fromBytesID: Array(peer.id))
+            let actualPeerAddress = try peer.addrs.map { elem in
+                return try Multiaddr(elem)
+            }
+            
+            let connection = self.application?.connections.getConnectionsToPeer(peer: peerID, on: self.el).map({ connections in
+                connections.map { connection in
+                    connection.newStream(forProtocol: Identify.Multicodecs.STOP)
+                }
+            })
+        } catch {
+            print("cannot get peer address")
+        }
+    }
+    
+    func handleOutboundStopRequest() -> ByteBuffer? {
+        var stopMessage = StopMessage()
+        stopMessage.type = .connect
+        guard let peer = self.stopPeer else {
+            print("cant find peerID for stopMessage")
+            return nil
+        }
+        stopMessage.peer = peer
+        
+        do {
+            let data = try stopMessage.serializedData()
+            return self.application?.allocator.buffer(bytes: data.bytes)
+        } catch {
+            logger.error("Identify:: Couldnt Serialize outbound autonat")
+            return nil
+        }
+    }
+    func handleReservations(peerInfo: PeerInfo, reservation: Reservation) {
+        
+        if let function = self.application?.reservationHandler {
+           function(peerInfo)
+        }
+    }
     func handleOutboundAutonatDial(addresses: PeerInfo) -> ByteBuffer? {
         var dial = Message.Dial()
         var info = Message.PeerInfo()
@@ -374,6 +537,7 @@ extension Identify {
             return nil
         }
     }
+    
     
     func handleDialRequest(msg: Message.Dial) -> ByteBuffer? {
         var peers: PeerInfo? = nil
