@@ -86,7 +86,7 @@ public final class Identify: IdentityManager, CustomStringConvertible {
     }
     
     public func sendAutoNat(peer: PeerID) -> EventLoopFuture<TimeAmount> {
-        return self.application!.eventLoopGroup.next().flatSubmit { //} .flatScheduleTask(deadline: .now() + .seconds(3)) {
+        return self.application!.eventLoopGroup.next().flatSubmit {
             self.application!.logger.trace("Identify::Attempting to send Autonat to \(peer)")
             let promise = self.application!.eventLoopGroup.next().makePromise(of: TimeAmount.self)
             try! self.application!.newStream(to: peer, forProtocol: Identify.Multicodecs.AUTONAT)

@@ -7,6 +7,7 @@
 
 import Multiaddr
 
+
 public extension Multiaddr {
     
     /// Extracts the address, port and protocol version from a Multiaddr if it is a valid TCP address
@@ -17,9 +18,9 @@ public extension Multiaddr {
         
         /// If our multiaddr is using the `dnsaddr` protocol, attempt to resolve it for a tcp ipv4 address
         if self.addresses.first?.codec == .dnsaddr {
-//            #if canImport(LibP2PDNSAddr)
-//            return self.resolve(for: [Codecs.ip4, Codecs.tcp])?.tcpAddress
-//            #endif
+            
+            
+            return self.resolve(for: [Codecs.ip4, Codecs.tcp])?.tcpAddress
             print("ERROR: Can't resolve DNS Address without DNSADDR dependency")
             return nil
         }
